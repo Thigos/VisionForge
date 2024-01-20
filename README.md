@@ -92,6 +92,7 @@ python capture.py -f http://198.168.1.1:8550 --htracking --vtracking
 Todos os resultados apresentados foram feitos na seguinte configuração de máquina:
 
 Processador: Intel® Core™ i5-3470 @ 3.20GHz<br>
+GPU: <b>Nenhuma</b><br>
 Ram: 8GB<br>
 SO: Windows 10
 
