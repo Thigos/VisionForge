@@ -19,14 +19,14 @@ a detecção, enquanto o OpenCV realiza o rastreamento do objeto.
 
 O YOLO gera caixas delimitadoras armazenadas em variáveis compartilhadas. Essas caixas são, então, repassadas para o
 OpenCV como imagens de template. A partir dessas delimitações, também são geradas as Larger Images, que são ajustadas
-com base nas configurações e variáveis: [HORIZONTAL_EXPANSION]() e [VERTICAL_EXPANSION](). Essas imagens representam
+com base nas configurações e variáveis: [HORIZONTAL_EXPANSION](https://github.com/Thigos/VisionForge/blob/db1f4c9c25b7bbee006e9e1b64e85f2471ac31a6/capture.py#L26) e [VERTICAL_EXPANSION](https://github.com/Thigos/VisionForge/blob/db1f4c9c25b7bbee006e9e1b64e85f2471ac31a6/capture.py#L27). Essas imagens representam
 onde ocorre
 a detecção. Isso assegura um alto desempenho, mesmo no Template Matching, devido à menor área de detecção em comparação
 com o frame original.
 
 ![Transformações das Boundig Boxes](results/bouding_boxes_transformation.png)
 
-O tempo de execução de cada ciclo do YOLO é determinado pela variável [yolo_period](). Esse intervalo pode ser
+O tempo de execução de cada ciclo do YOLO é determinado pela variável [yolo_period](https://github.com/Thigos/VisionForge/blob/19e84dfef896cc40e873b8992825c806bde7fdd7/capture.py#L19). Esse intervalo pode ser
 configurado
 manualmente ou definido automáticamente como a média do tempo de processamento do modelo em seu computador. Esse tempo
 impacta principalmente na precisão da detecção, visto que é o YOLO que ajusta a detecção do OpenCV. Assim, é possível
@@ -75,19 +75,21 @@ python capture.py -f http://198.168.1.1:8550 --htracking --vtracking
 
 É possível também configurar algumas variáveis do código:
 
-[HORIZONTAL_EXPANSION](): Quantidade de Pixels que serão somados na Horizontal.
+[HORIZONTAL_EXPANSION](https://github.com/Thigos/VisionForge/blob/db1f4c9c25b7bbee006e9e1b64e85f2471ac31a6/capture.py#L26): Quantidade de Pixels que serão somados na Horizontal.
 
-[VERTICAL_EXPANSION](): Quantidade de Pixels que serão somados na Vertical.
+[VERTICAL_EXPANSION](https://github.com/Thigos/VisionForge/blob/db1f4c9c25b7bbee006e9e1b64e85f2471ac31a6/capture.py#L27): Quantidade de Pixels que serão somados na Vertical.
 
-[MAX_WIDTH_RESOLUTION](): Variável que limita a resolução do Vídeo/Câmera.
+[MAX_WIDTH_RESOLUTION](https://github.com/Thigos/VisionForge/blob/db1f4c9c25b7bbee006e9e1b64e85f2471ac31a6/capture.py#L28): Variável que limita a resolução do Vídeo/Câmera.
 
-[MAX_HEIGHT_RESOLUTION](): Variável que limita a resolução do Vídeo/Câmera.
+[MAX_HEIGHT_RESOLUTION](https://github.com/Thigos/VisionForge/blob/db1f4c9c25b7bbee006e9e1b64e85f2471ac31a6/capture.py#L29): Variável que limita a resolução do Vídeo/Câmera.
 
-[model = YOLO...](): Caminho do Modelo YOLO.
+[model = YOLO...](https://github.com/Thigos/VisionForge/blob/db1f4c9c25b7bbee006e9e1b64e85f2471ac31a6/utils/yolo_detect.py#L6): Caminho do Modelo YOLO.
 
-[CONFIDENCE_YOLO](): Valor Mínimo de Precisão do Modelo YOLO.
+[CONFIDENCE_YOLO](https://github.com/Thigos/VisionForge/blob/db1f4c9c25b7bbee006e9e1b64e85f2471ac31a6/utils/yolo_detect.py#L5): Valor Mínimo de Precisão do Modelo YOLO.
 
-[CONFIDENCE_OPENCV](): Valor Mínimo de Precisão do Método OpenCV.
+[CONFIDENCE_OPENCV](https://github.com/Thigos/VisionForge/blob/19e84dfef896cc40e873b8992825c806bde7fdd7/utils/opencv_detect.py#L4): Valor Mínimo de Precisão do Método OpenCV.
+
+[EUCLIDEAN_DISTANCE](https://github.com/Thigos/VisionForge/blob/19e84dfef896cc40e873b8992825c806bde7fdd7/utils/opencv_detect.py#L5): Valor Máximo da Distância euclidiana.
 
 # Resultados <a href="#" title="changelog">v1.0-beta</a>
 
