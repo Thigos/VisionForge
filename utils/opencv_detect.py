@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 
 CONFIDENCE = 0.5
+EUCLIDEAN_DISTANCE = 0.1
 
 
 def detect(larger_image, template_image):
@@ -30,7 +31,7 @@ def detect(larger_image, template_image):
 
         euclidean_intensity = calculate_similarity(hist_intensity1, hist_intensity2)
 
-        if euclidean_intensity <= 0.1:
+        if euclidean_intensity <= EUCLIDEAN_DISTANCE:
             return (cv_x1, cv_y1, cv_x2, cv_y2), euclidean_intensity
         else:
             return None
