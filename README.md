@@ -91,7 +91,7 @@ python capture.py -f http://198.168.1.1:8550 --htracking --vtracking
 
 [EUCLIDEAN_DISTANCE](https://github.com/Thigos/VisionForge/blob/19e84dfef896cc40e873b8992825c806bde7fdd7/utils/opencv_detect.py#L5): Valor Máximo da Distância euclidiana.
 
-# Resultados <a href="#" title="changelog">v1.0-beta</a>
+# Resultados <a href="https://github.com/Thigos/VisionForge/releases/tag/v1.0-beta" title="release notes">v1.0-beta</a>
 
 Todos os resultados apresentados foram feitos na seguinte configuração de máquina:
 
