@@ -9,6 +9,8 @@ em tempo real. Em outras palavras, o YOLO (com alto custo de processamento) é e
 intervalo de tempo para a detecção de objetos, e os resultados são então enviados para o OpenCV, que opera em tempo
 real para realizar o Tracking.
 
+<img alt="Vison Forge Result" src="results/ForgedVision_Navio.gif" width="100%"/>
+
 # Teoria
 
 O YOLO, por ser uma tecnologia que demanda considerável poder de processamento, foi incorporado neste projeto como um
@@ -22,7 +24,7 @@ onde ocorre
 a detecção. Isso assegura um alto desempenho, mesmo no Template Matching, devido à menor área de detecção em comparação
 com o frame original.
 
-![Transformações das Boundig Boxes](doc/bouding_boxes_transformation.png)
+![Transformações das Boundig Boxes](results/bouding_boxes_transformation.png)
 
 O tempo de execução de cada ciclo do YOLO é determinado pela variável [yolo_period](). Esse intervalo pode ser
 configurado
@@ -34,7 +36,7 @@ Para compreender o processo, visualize-o como uma linha do tempo: o YOLO é exec
 objetos no frame. Em seguida, esses objetos são repassados para o OpenCV, que os rastreia até que ocorra uma nova
 identificação pelo YOLO, reiniciando assim o ciclo.
 
-![Linha do Tempo YOLO OpenCV](doc/yolo_thread_func.png)
+![Linha do Tempo YOLO OpenCV](results/yolo_thread_func.png)
 
 # Como Usar
 
@@ -87,7 +89,7 @@ python capture.py -f http://198.168.1.1:8550 --htracking --vtracking
 
 [CONFIDENCE_OPENCV](): Valor Mínimo de Precisão do Método OpenCV.
 
-# Resultados
+# Resultados <a href="#" title="changelog">v1.0-beta</a>
 
 Todos os resultados apresentados foram feitos na seguinte configuração de máquina:
 
@@ -105,7 +107,7 @@ Método Template Matching: TM_CCORR_NORMED
 
 ### VisionForge
 
-<a href="https://youtu.be/V3qour6UlMM"><img alt="maxresdefault_vf.jpg" src="doc/maxresdefault_vf.jpg"/></a>
+<a href="https://youtu.be/TmKN5EO2LPM"><img alt="maxresdefault_vf.jpg" src="results/maxresdefault_vf.jpg"/></a>
 <small>Vídeo
 de <a href="https://pixabay.com/pt/users/alexkopeykin-6178059/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=39837">
 Олександр Копєйкін</a>
@@ -114,7 +116,7 @@ Pixabay</a></small>
 
 ### YOLO
 
-<a href="https://youtu.be/u3YoQL1jI_Y"><img alt="maxresdefault_vf.jpg" src="doc/maxresdefault_yl.jpg"/></a>
+<a href="https://youtu.be/u3YoQL1jI_Y"><img alt="maxresdefault_vf.jpg" src="results/maxresdefault_yl.jpg"/></a>
 <small>Vídeo
 de <a href="https://pixabay.com/pt/users/alexkopeykin-6178059/?utm_source=link-attribution&utm_medium=referral&utm_campaign=video&utm_content=39837">
 Олександр Копєйкін</a>
@@ -124,39 +126,23 @@ Pixabay</a></small>
 É possível distinguir a taxa de quadros entre os vídeos, e essa diferença também é visível ao observarmos o FPS ao longo
 de todo o vídeo.
 
-![Compração de FPS VisionForge x YOLO](doc/fps_comparacao.png)
+![Compração de FPS VisionForge x YOLO](results/fps_comparacao.png)
 
 Podemos notar que, enquanto o YOLO não ultrapassa 5 FPS, o VisionForge mantém sua predominância acima dos 50 FPS. Também
 é perceptível a forma como o FPS se comporta, assemelhando-se a uma onda quadrática. Esse efeito está relacionado
 ao tempo do yolo_period, no qual a detecção do Template Matching causa a queda
 do FPS. Isso é evidenciado na imagem a seguir, na qual o yolo_period foi ajustado para 5 segundos.
 
-![FPS com yolo_period = 5s](doc/fps_period_5s.png)
+![FPS com yolo_period = 5s](results/fps_period_5s.png)
 
 ## Comparação de Caixas ao Longo do Vídeo
 
-É possível comparar a quantidade de bounding boxes do YOLO em relação aos métodos do Template Matching.
+É possível comparar a quantidade de bounding boxes do VisionForge em relação ao YOLO.
 
-A seguir, apresentamos quatro gráficos com a contagem de bounding boxes durante todo o vídeo. É necessário considerar o
-YOLO como a medida base, pois ele serve como referência para os métodos.
+![VisionForge x Yolo Bounding Boxes](results/Number_of_Bounding_Boxes.png)
 
-![box por Método](doc/box_p_model.png)
 
-Observa-se que há perdas no processo, dependendo do método utilizado. Neste caso, devido a variáveis de imagem, é
-perceptível que os modelos TM_CCORR_NORMED e TM_SQDIFF_NORMED tendem a acompanhar o gráfico do YOLO, assim tendo
-resultados melhores. No entanto, é essencial realizar testes para determinar o melhor modelo para cada caso de uso.
+É notável que ainda existem diferenças entre o VisionForge e o YOLO; no entanto, essas disparidades podem ser corrigidas
+com a implementação de inovações adicionais, como um sistema que leve em consideração a permanência do objeto.
 
-Aqui uma breve observação de cada método sobreposto ao YOLO
-
-### YOLO x TM_CCOEFF_NORMED
-
-![YOLO x TM_CCOEFF_NORMED](doc/YOLO%20x%20TM_CCOEFF_NORMED.png)
-
-### YOLO x TM_CCORR_NORMED
-
-![YOLO x TM_CCORR_NORMED](doc/YOLO%20x%20TM_CCORR_NORMED.png)
-
-### YOLO x TM_SQDIFF_NORMED
-
-![YOLO x TM_SQDIFF_NORMED](doc/YOLO%20x%20TM_SQDIFF_NORMED.png)
 

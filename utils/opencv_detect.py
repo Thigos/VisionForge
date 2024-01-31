@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 CONFIDENCE = 0.5
 
@@ -24,6 +25,25 @@ def detect(larger_image, template_image):
     cv_x2, cv_y2 = cv_x1 + w_template, cv_y1 + h_template
 
     if max_val >= CONFIDENCE:
-        return (cv_x1, cv_y1, cv_x2, cv_y2), max_val
+        hist_intensity1 = calc_gray_histogram(template_image_gray)
+        hist_intensity2 = calc_gray_histogram(larger_image_gray[cv_y1:cv_y2, cv_x1:cv_x2])
+
+        euclidean_intensity = calculate_similarity(hist_intensity1, hist_intensity2)
+
+        if euclidean_intensity <= 0.1:
+            return (cv_x1, cv_y1, cv_x2, cv_y2), euclidean_intensity
+        else:
+            return None
     else:
         return None
+
+
+def calc_gray_histogram(img):
+    hist_intensity = cv2.calcHist([img], [0], None, [256], [0, 256])
+    hist_intensity /= hist_intensity.sum()
+
+    return hist_intensity
+
+
+def calculate_similarity(hist1, hist2):
+    return np.linalg.norm(hist1 - hist2)

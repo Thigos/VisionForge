@@ -40,11 +40,12 @@ yolo_condition = threading.Condition()
 yolo_stop_flag = False
 
 
-def create_larger_image(frame, cords):
+def preprocess_image(frame, template, cords):
     """
-    Create a larger image (Template Matching in OpenCV) by adjusting the coordinates of the bounding box.
+    Create a larger image and adjust a Template (Template Matching in OpenCV) by adjusting the coordinates of the bounding box.
 
     :param frame: The input image frame.
+    :param template: The image used in the match template.
     :param cords: The coordinates (x_min, y_min, x_max, y_max) of the bounding box.
     :return: Tuple containing larger_image, adjusted coordinates (x_min_adjusted, y_min_adjusted, x_max_adjusted,
                 y_max_adjusted).
@@ -59,21 +60,39 @@ def create_larger_image(frame, cords):
     y_max_adjusted = cords[3] + (VERTICAL_ENABLED * VERTICAL_EXPANSION)
 
     if x_min_adjusted < 0:
+        x_max_adjusted += x_min_adjusted
         x_min_adjusted = 0
     if y_min_adjusted < 0:
+        y_max_adjusted += y_min_adjusted
         y_min_adjusted = 0
 
     if x_max_adjusted > width:
+        diff = x_max_adjusted - width
+        x_min_adjusted += diff
         x_max_adjusted = width
     if y_max_adjusted > height:
+        diff = y_max_adjusted - height
+        y_min_adjusted += diff
         y_max_adjusted = height
+
+    if cords[0] == 0 and (template.shape[1] - 2) > 10 and HORIZONTAL_ENABLED:
+        template = template[:, 2:]
+
+    if cords[1] == 0 and (template.shape[0] - 2) > 10 and VERTICAL_ENABLED:
+        template = template[2:, :]
+
+    if cords[2] == width and (template.shape[1] - 2) > 10 and HORIZONTAL_ENABLED:
+        template = template[:, :-2]
+
+    if cords[3] == height and (template.shape[0] - 2) > 10 and VERTICAL_ENABLED:
+        template = template[:-2, :]
 
     larger_image = frame[
                    y_min_adjusted: y_max_adjusted,
                    x_min_adjusted: x_max_adjusted
                    ]
 
-    return larger_image, x_min_adjusted, y_min_adjusted, x_max_adjusted, y_max_adjusted
+    return (larger_image, template), (x_min_adjusted, y_min_adjusted)
 
 
 def yolo_detection_thread():
@@ -104,7 +123,7 @@ def yolo_detection_thread():
             time.sleep(yolo_period)
 
 
-def opencv_detection(frame):
+def opencv_detection(frame_copy, frame):
     """
     Detects objects in a video frame using OpenCV.
 
@@ -116,7 +135,9 @@ def opencv_detection(frame):
 
         template_image = box['template_image']
 
-        larger_image, x1, y1, x2, y2 = create_larger_image(frame, cords)  # YOLO Box
+        (larger_image, template_image), (x1, y1) = preprocess_image(frame, template_image, cords)
+
+        box['template_image'] = template_image  # Reload Template Image
 
         opencv_result = opencv_detect.detect(larger_image, template_image)  # OpenCV Box
 
@@ -126,8 +147,13 @@ def opencv_detection(frame):
             video_x1, video_y1, video_x2, video_y2 = (x1 + cv_x1), (y1 + cv_y1), (x1 + cv_x2), (y1 + cv_y2)  # video Box
             box['cords'] = [video_x1, video_y1, video_x2, video_y2]
 
-            cv2.rectangle(frame, (video_x1, video_y1), (video_x2, video_y2), 255, 2)
-            cv2.putText(frame, f"{box['label']} - {'{:.2f}'.format(conf)}", (video_x1, video_y1),
+            meio_x = int((video_x1 + video_x2) / 2)
+            meio_y = int((video_y1 + video_y2) / 2)
+
+            cv2.circle(frame_copy, (meio_x, meio_y), 2, (0, 255, 0), 2)
+
+            cv2.rectangle(frame_copy, (video_x1, video_y1), (video_x2, video_y2), 255, 2)
+            cv2.putText(frame_copy, f"{box['label']} - {'{:.2f}'.format(conf)}", (video_x1, video_y1),
                         cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 0),
                         1)
 
@@ -209,7 +235,7 @@ def main():
                 break
 
             frame_copy = frame.copy()
-            opencv_detection(frame_copy)
+            opencv_detection(frame_copy, frame)
 
             frame_end_time = time.time()
             fps = 1 / np.round(frame_end_time - frame_start_time, 2)
