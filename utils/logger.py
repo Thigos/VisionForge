@@ -1,3 +1,4 @@
+from pathlib import Path
 import logging
 from datetime import datetime
 
@@ -9,9 +10,18 @@ def getFileName():
     return formatted_day
 
 
+def verify_logs_path():
+    path_dir = Path('logs/')
+
+    if not path_dir.exists():
+        Path.mkdir(path_dir)
+
+
 class Logger:
     logger = logging.getLogger('logger')
     logger.setLevel(logging.DEBUG)
+
+    verify_logs_path()
 
     file_handler = logging.FileHandler(f'logs/{getFileName()}.log')
     file_handler.setLevel(logging.DEBUG)
