@@ -10,13 +10,13 @@ from .YOLOProcessing import YOLOProcessing
 from .Exceptions import FrameNotFound
 
 
-class VisionForge:
+class Tracking:
     shared_frame = None
     shared_boxes = {}
 
     def __init__(self, model_path: Union[str, Path] = "yolov8n.pt"):
         """
-        Initialize the vf object.
+        Initialize the Tracking object.
         :param model_path: The path to the YOLO model.
         :type model_path: str or Path
         """
@@ -58,13 +58,13 @@ class VisionForge:
         Start the tracking thread.
         """
         while not self.__thread_yolo_stop_flag:
-            if self.__past_frame is not None and np.array_equal(self.__past_frame, VisionForge.shared_frame):
+            if self.__past_frame is not None and np.array_equal(self.__past_frame, Tracking.shared_frame):
                 self.__thread_yolo_stop_flag = True
                 break
 
-            self.__past_frame = VisionForge.shared_frame
+            self.__past_frame = Tracking.shared_frame
             boxes_dict = self.__yoloProcessing()
-            VisionForge.shared_boxes = boxes_dict
+            Tracking.shared_boxes = boxes_dict
 
             with self.__thread_yolo_condition:
                 self.__thread_yolo_condition.notify()
@@ -82,7 +82,7 @@ class VisionForge:
 
         original_frame_copy = frame.copy()
 
-        VisionForge.shared_frame = original_frame_copy
+        Tracking.shared_frame = original_frame_copy
 
         if not self.__thread_yolo.is_alive() and not self.__thread_yolo_stop_flag:
             self.__thread_yolo.start()
@@ -92,7 +92,7 @@ class VisionForge:
 
         results = []
 
-        for box in VisionForge.shared_boxes.values():
+        for box in Tracking.shared_boxes.values():
             result = self.__opencvProcessing(original_frame_copy, box)
 
             if result:

@@ -1,4 +1,4 @@
-# VisionForge
+# Tracking
 
 Este projeto visa a criação de uma técnica para otimizar o tempo de processamento no rastreamento de objetos, utilizando
 visão computacional.
@@ -91,7 +91,7 @@ python capture.py -f http://198.168.1.1:8550 --htracking --vtracking
 
 [EUCLIDEAN_DISTANCE](https://github.com/Thigos/VisionForge/blob/19e84dfef896cc40e873b8992825c806bde7fdd7/utils/opencv_detect.py#L5): Valor Máximo da Distância euclidiana.
 
-# Resultados <a href="https://github.com/Thigos/VisionForge/releases/tag/v1.0-beta" title="release notes">v1.0-beta</a>
+# Resultados <a href="https://github.com/Thigos/Tracking/releases/tag/v1.0-beta" title="release notes">v1.0-beta</a>
 
 Todos os resultados apresentados foram feitos na seguinte configuração de máquina:
 
@@ -108,7 +108,7 @@ Método Template Matching: TM_CCORR_NORMED
 
 ###### OBS: Pode ter ocorrido perda de FPS devido à gravação
 
-### VisionForge
+### Tracking
 
 <a href="https://youtu.be/TmKN5EO2LPM"><img alt="maxresdefault_vf.jpg" src="results/maxresdefault_vf.jpg"/></a>
 <small>Vídeo
@@ -129,9 +129,9 @@ Pixabay</a></small>
 É possível distinguir a taxa de quadros entre os vídeos, e essa diferença também é visível ao observarmos o FPS ao longo
 de todo o vídeo.
 
-![Compração de FPS VisionForge x YOLO](results/fps_comparacao.png)
+![Compração de FPS Tracking x YOLO](results/fps_comparacao.png)
 
-Podemos notar que, enquanto o YOLO não ultrapassa 5 FPS, o VisionForge mantém sua predominância acima dos 50 FPS. Também
+Podemos notar que, enquanto o YOLO não ultrapassa 5 FPS, o Tracking mantém sua predominância acima dos 50 FPS. Também
 é perceptível a forma como o FPS se comporta, assemelhando-se a uma onda quadrática. Esse efeito está relacionado
 ao tempo do yolo_period, no qual a detecção do Template Matching causa a queda
 do FPS. Isso é evidenciado na imagem a seguir, na qual o yolo_period foi ajustado para 5 segundos.
@@ -140,12 +140,12 @@ do FPS. Isso é evidenciado na imagem a seguir, na qual o yolo_period foi ajusta
 
 ## Comparação de Caixas ao Longo do Vídeo
 
-É possível comparar a quantidade de bounding boxes do VisionForge em relação ao YOLO.
+É possível comparar a quantidade de bounding boxes do Tracking em relação ao YOLO.
 
-![VisionForge x Yolo Bounding Boxes](results/Number_of_Bounding_Boxes.png)
+![Tracking x Yolo Bounding Boxes](results/Number_of_Bounding_Boxes.png)
 
 
-É notável que ainda existem diferenças entre o VisionForge e o YOLO; no entanto, essas disparidades podem ser corrigidas
+É notável que ainda existem diferenças entre o Tracking e o YOLO; no entanto, essas disparidades podem ser corrigidas
 com a implementação de inovações adicionais, como um sistema que leve em consideração a permanência do objeto.
 
 

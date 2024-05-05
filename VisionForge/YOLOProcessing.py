@@ -1,8 +1,8 @@
-from vf import VisionForge
+from VisionForge import Tracking
 
 
 class YOLOProcessing:
-    def __init__(self, vf: 'VisionForge'):
+    def __init__(self, vf: 'Tracking'):
         self.__visionForge = vf
 
         self.__yolo_in_ram = False

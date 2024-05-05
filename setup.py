@@ -4,14 +4,14 @@ with open('README.md', 'r', encoding='utf-8') as fh:
     long_description = fh.read()
 
     setuptools.setup(
-        name='vf',
+        name='VisionForge',
         version='1.0.0',
-        packages=['vf'],
+        packages=['VisionForge'],
         url='https://github.com/Thigos/VisionForge',
         license='AGPL-3.0 license',
         author='Thiago Rodrigues',
         author_email='',
-        description='VisionForge é um projeto de visão computacional que otimiza o rastreamento de objetos. Combina '
+        description='Tracking é um projeto de visão computacional que otimiza o rastreamento de objetos. Combina '
                     'YOLOv8 para detecção em intervalos programados, reduzindo o custo computacional, e OpenCV para '
                     'rastreamento em tempo real. Uma solução eficiente e econômica para monitoramento de objetos.',
         long_description=long_description,

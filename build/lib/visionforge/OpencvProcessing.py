@@ -1,11 +1,11 @@
 import cv2
 import numpy as np
 
-from vf import VisionForge
+from VisionForge import Tracking
 
 
 class OpencvProcessing:
-    def __init__(self, vf: 'vf'):
+    def __init__(self, vf: 'Tracking'):
         self.__visionForge = vf
 
     def __call__(self, frame, box):

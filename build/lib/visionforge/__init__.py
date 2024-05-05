@@ -1,5 +1,5 @@
-# vf, AGPL-3.0 license
+# Tracking, AGPL-3.0 license
 
 __version__ = "1.0.0"
 
-from vf.VisionForge import VisionForge
+from VisionForge.Tracking import Tracking

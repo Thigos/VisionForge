@@ -3,7 +3,7 @@ import numpy as np
 
 
 class OpencvProcessing:
-    def __init__(self, vf: 'VisionForge'):
+    def __init__(self, vf: 'Tracking'):
         self.__visionForge = vf
 
     def __call__(self, frame, box):

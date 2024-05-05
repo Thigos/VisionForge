@@ -17,7 +17,7 @@ class VisionForge:
 
     def __init__(self, model_path: Union[str, Path] = "yolov8n.pt"):
         """
-        Initialize the vf object.
+        Initialize the Tracking object.
         :param model_path: The path to the YOLO model.
         :type model_path: str or Path
         """
